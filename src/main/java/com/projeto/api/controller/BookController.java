@@ -1,12 +1,10 @@
 package com.projeto.api.controller;
 
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Optional;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,7 +21,7 @@ import com.projeto.api.vo.Book;
 public class BookController {
 	@Autowired
 	BookService bs;
-	
+
 	@PostMapping("/book")
 	public @ResponseBody String saveBook(@RequestBody Book book){
 		bs.saveBook(book);
@@ -41,23 +39,13 @@ public class BookController {
 			Elements titles = doc.select("h2");
 			Elements descriptions = doc.select("p");
 			Elements languages = doc.select("div [class=\"book-lang\"]");
-			Elements links = doc.select("p a");	
-			System.out.println(links.attr("href"));
-			Book book = new Book();
-			for (Element link : links ) {
-				Document doc2 = Jsoup.connect(link.attr("href")).get();
-				if(link.attr("href").substring(11,22).equals("fundamental")) {
-					Elements isbn = doc.select("h2 [class=dark-blue-text] span");
-					
-				}else if(link.attr("href").substring(11,18).equals("manning")){
-					
-				}else if(link.attr("href").substring(11,17).equals("amazon")){
-					
-				}else if(link.attr("href").substring(11,19).equals("packtpub")){
-					
-				}
-				
-				
+			
+			for (int i=0;i<titles.size();i++) {
+				Book book = new Book();
+				book.setTitle(titles.get(i).text());
+				book.setLanguage(languages.get(i).text());
+				book.setDescription(descriptions.get(i).text());
+				saveBook(book);
 			}
 
 	}
