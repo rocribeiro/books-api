@@ -1,28 +1,50 @@
-Para rodar meu código é necessario:
+# Sobre a Aplicação
 
-*Ide usada Eclipse.
+Esta API foi desenvolvida com propósitos acadêmicos e tem como objetivo demonstrar um simples CRUD (Create, Read, Update, Delete) de livros. Além disso, inclui um endpoint que realiza integração com a API do Google Books. 📚🎓
 
-1- Rodar o maven para instalar as dependencias.
+## Detalhes Técnicos
 
-2- Criar um database chamado "api" no mysql versão 5 eu utilizei a 5.0.12, com username "root" e sem senha.Caso necessario apenas troca
-essa configuração no resources arquivo "application.properties".(Eu utilizei JPA para criar as tabelas sozinhas quando o projeto rodar
-pela primeira vez).
+- Desenvolvida em Java 8 utilizando o framework Spring Boot 2.1.3. ☕🚀
+- Utiliza o banco de dados H2 para armazenar os dados em memória. 💾
+- Embora um Dockerfile tenha sido criado, a aplicação ainda não foi dockerizada. 🐳
 
-3- Rodar o projeto clicando com o botão direito em cima do projeto "run as" java application.
+## Endpoints
 
-4- Após o projeto estart startado basta ir no browser e chamar o métodos da controller.
+1. **Integração com Google Books API e Salvar no Banco:**
 
---http://localhost:8080/book
+   - Método: POST
+   - URL: `http://localhost:8080/books/save/{{theme}}`
+   - Descrição: Este endpoint realiza a integração com a API do Google Books para obter livros com base no tema fornecido como parâmetro. Os livros são salvos no banco de dados. 🌐✨
 
-*Recebe um Json e armazena no banco de dados, tem um retorno simples de "ok"
+2. **Salvar um Livro:**
 
---http://localhost:8080/books/(Um ID existente no banco)
+   - Método: POST
+   - URL: `http://localhost:8080/book`
+   - Descrição: Este endpoint permite salvar um livro enviado no corpo da requisição. 📖✨
 
-*Retorna o objeto referente ao ID passado.
+3. **Listar Todos os Livros:**
 
---http://localhost:8080/books
-*Popula o banco com livros do site "https://kotlinlang.org/docs/books.html", porém esse método contém dois problemas.
+   - Método: GET
+   - URL: `http://localhost:8080/all/books/`
+   - Descrição: Este endpoint retorna uma lista de todos os livros cadastrados na aplicação. 📜📚
 
-**1-A descrição do primeiro livro por ter 3 TAGS "p" faz com que as outras fiquem de certa forma embaranhadas.
+4. **Buscar um Livro por ID:**
 
-**2-Não consegui capturar os ISBN, pois não consegui encontrar um padrão entre os sites de cada livro.
+   - Método: GET
+   - URL: `http://localhost:8080/books/{id}`
+   - Descrição: Este endpoint permite buscar um livro específico com base no ID fornecido. 🔍📚
+
+## Instruções para Execução
+
+1. Certifique-se de ter o Java 8 instalado. ☕
+2. Clone o repositório. 📂
+3. Execute a aplicação utilizando o comando `./mvnw spring-boot:run` (Linux/Mac) ou `mvnw.cmd spring-boot:run` (Windows). 🚀
+4. Os endpoints estarão disponíveis em `http://localhost:8080/`. 🌐
+
+## Dockerização
+
+- Um Dockerfile foi fornecido na raiz do projeto. Para dockerizar a aplicação, você pode seguir os passos usuais de construção e execução de uma imagem Docker. Certifique-se de ter o Docker instalado em sua máquina. 🐳
+
+## Observação
+
+Esta aplicação é destinada apenas para fins educacionais. O uso de dados da API do Google Books pode estar sujeito aos termos de serviço do Google. Certifique-se de compreender e cumprir os requisitos legais ao utilizar esta aplicação. 🚀✨
