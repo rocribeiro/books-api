@@ -28,13 +28,21 @@ public class BookService {
 	String googleApiBookUrl;
 
 	
-	public void saveBook(Book book){
-		bookRepository.save(book);
+	public Book saveBook(Book book){ 
+		if (book.getTitle() != null && book.getDescription() != null) {
+			return bookRepository.save(book);
+		} else {
+			throw new IllegalArgumentException("O Title nem a description nao podem ser nulo para salvar.");
+		}
 	}
-	public Optional<Book> searchBookById(String id){
-		return bookRepository.findById(id);
-		
+	public Optional<Book> getBookById(String id){
+		if (id != null) {
+			return bookRepository.findById(id);
+		} else {
+			return Optional.empty();
+		}
 	}
+	
 	public List<Book> getAllBooks(){
 		return bookRepository.findAll();
 	}

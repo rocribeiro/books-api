@@ -24,24 +24,33 @@ public class BookController {
 	BookService bookService;
     private static final Logger LOGGER = Logger.getLogger(BookController.class.getName());
 
-	@PostMapping("/book")
-	public @ResponseBody String saveBook(@RequestBody Book book){
-		bookService.saveBook(book);
-		return "OK";
-	}
-	@GetMapping("/books/{id}")
-	public @ResponseBody Optional<Book> searchBook(@PathVariable("id") String id){
-		return bookService.searchBookById(id);
-	
+	@PostMapping("/book/save")
+	@ResponseBody
+	public Book saveBook(@RequestBody Book book){
+		return bookService.saveBook(book);
 	}
 
-	@GetMapping("/all/books")
+	@SuppressWarnings("null")
+	@GetMapping("/books/{id}")
+	@ResponseBody
+	public ResponseEntity<Book> searchBook(@PathVariable("id") String id){
+		Optional<Book> bookOptional = bookService.getBookById(id);
+		
+		if (bookOptional.isPresent()) {
+			Book book = bookOptional.get();
+			return ResponseEntity.ok(book);
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+	}
+
+	@GetMapping("/books/all")
 	public @ResponseBody List<Book> getAllBooks(){
 		return bookService.getAllBooks();
-	
 	}
 	
-	@GetMapping("/books/save/{theme}")
+	@SuppressWarnings("null")
+	@GetMapping("/google/books/save/{theme}")
 	@ResponseBody
 	public List<Book> saveBooksFromGoogleApiToDB(@PathVariable("theme") String theme) throws Exception, Exception {
 		try {
